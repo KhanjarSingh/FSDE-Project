@@ -1,7 +1,10 @@
-# Instructions
-
-1. Use SQLITE3 for database storage implementation
-1. Use Prisma for ORM
-1. Implement at least one full CRUD RESTful API
-1. Deploy it on Render for backend and vercel for frontend
-1. Resolve CORS issue if needed after deployment
+# MiniShop: Full-Stack eCommerce Application
+MiniShop is a modern eCommerce platform.
+## Features
+- Frontend: Responsive React SPA.
+- Backend: Node/Express API with JWT.
+- Testing: Unit, Integration, E2E (Playwright).
+- Automation: setup.sh, GitHub Actions (CI & CD).
+## Installation
+Run `./setup.sh` to install dependencies and setup `.env`.
+Check ARCHITECTURE.md for more details.
