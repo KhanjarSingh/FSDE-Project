@@ -1,24 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
-
-// Health Check Route
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    message: 'ShopSmart Backend is running',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ status: 'ok', message: 'Backend is running', timestamp: new Date().toISOString() });
 });
-
-// Root Route (optional, just to show something)
-app.get('/', (req, res) => {
-  res.send('ShopSmart Backend Service');
-});
-
+app.get('/', (req, res) => { res.send('MiniShop API'); });
 module.exports = app;
