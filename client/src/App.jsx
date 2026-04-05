@@ -1,36 +1,34 @@
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
+import Orders from './pages/Orders';
+import Admin from './pages/Admin';
+import './App.css';
 function App() {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-        const apiUrl = import.meta.env.VITE_API_URL || '';
-        fetch(`${apiUrl}/api/health`)
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(err => console.error('Error fetching health check:', err));
-    }, []);
-
-    return (
-        <div className="container">
-            <h1>ShopSmart</h1>
-            <div className="card">
-                <h2>Backend Status</h2>
-                {data ? (
-                    <div>
-                        <p>Status: <span className="status-ok">{data.status}</span></p>
-                        <p>Message: {data.message}</p>
-                        <p>Timestamp: {data.timestamp}</p>
-                    </div>
-                ) : (
-                    <p>Loading backend status...</p>
-                )}
-            </div>
-            <p className="hint">
-                Edit <code>src/App.jsx</code> and save to test HMR
-            </p>
-        </div>
-    )
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) setUser(JSON.parse(userInfo));
+  }, []);
+  return (
+    <Router>
+      <Navbar user={user} setUser={setUser} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/register" element={<Register setUser={setUser} />} />
+        <Route path="/product/:id" element={<ProductDetails cart={cart} setCart={setCart} />} />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} user={user} />} />
+        <Route path="/orders" element={<Orders user={user} />} />
+        <Route path="/admin" element={<Admin user={user} />} />
+      </Routes>
+    </Router>
+  );
 }
-
-export default App
+export default App;
